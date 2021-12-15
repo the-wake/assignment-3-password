@@ -1,2 +1,2 @@
-# assignment-3-password
+# assignment-3-passwords
 Password generator assignment
