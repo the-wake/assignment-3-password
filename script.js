@@ -1,8 +1,16 @@
 // Assignment Code
 var minTypes = 1;
+var minChar = 8;
+var maxChar = 128;
 var generateBtn = document.querySelector("#generate");
 
-// [Math.floor(Math.random()*useChars.length)]
+var characters = {
+  lower: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+  upper: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
+  number: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+  special: ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "=", ":", ";", "?", "/", ",", "."]
+  // I'm leaving out some special characters depending on how inconvenient they are to enter, and/or how likely they are to get misread (by the user or a system).
+}
 
 function getRandom(array) {
   var placeholderIndex=Math.floor(Math.random()*array.length);
@@ -11,9 +19,9 @@ function getRandom(array) {
 };
 
 function getOptions() {
-  var pwLength = prompt("How long would you like your password to be? (Between 8 and 128 characters.)");
-  if (pwLength < 8 || pwLength > 128) {
-    alert("Password length must be between 8 and 128 characters.");
+  var pwLength = prompt("How long would you like your password to be? (Between " + minChar + " and " + maxChar + " characters.)");
+  if (pwLength < minChar || pwLength > maxChar) {
+    alert("Password length must be between " + minChar + " and " + maxChar + " characters.");
     return null;
   }
 
@@ -37,15 +45,9 @@ function getOptions() {
   return pwOptionsObj;
 }
 
-function generatePassword() {
-  var characters = {
-    lower: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
-    upper: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
-    number: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    special: ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "=", ":", ";", "?", "/", ",", "."]
-    // I'm leaving out some special characters depending on how inconvenient they are to enter, and/or how likely they are to get misread (by the user or a system).
-  }
+// If I didn't think I'd break anything, I could have this whole thing shut down if the paramaters aren't met by having getOptions return x and then evaluate that getOptions !=x before it runs.
 
+function generatePassword() {
   var pwOptions = getOptions();
 
   // Used to validate random selector.
