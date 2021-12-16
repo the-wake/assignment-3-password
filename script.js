@@ -1,5 +1,14 @@
 // Assignment Code
+var minTypes = 1;
 var generateBtn = document.querySelector("#generate");
+
+// [Math.floor(Math.random()*useChars.length)]
+
+function getRandom(array) {
+  var placeholderIndex=Math.floor(Math.random()*array.length);
+  var randomElement=array[placeholderIndex];
+  return randomElement;
+};
 
 function getOptions() {
   var pwLength = prompt("How long would you like your password to be? (Between 8 and 128 characters.)");
@@ -20,9 +29,8 @@ function getOptions() {
     spec: pwSpec
   }
 
-  // This line eventually supposed to check if you've chosen 2 or more, but I'm not sure if there's a way to sum booleans or how I'd do that.
-  if (3 < 2) {
-    alert("You must choose at least 2 types of characters.");
+  if ((pwLower + pwCaps + pwNums + pwSpec) < minTypes) {
+    alert("You must choose at least " + minTypes + " type(s) of characters.");
     return null;
   }
   
@@ -34,18 +42,26 @@ function generatePassword() {
     lower: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
     upper: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"],
     number: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    special: ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "?", "/", ",", "."]
+    special: ["`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "=", ":", ";", "?", "/", ",", "."]
     // I'm leaving out some special characters depending on how inconvenient they are to enter, and/or how likely they are to get misread (by the user or a system).
   }
 
-  var pwOptions = getOptions()
+  var pwOptions = getOptions();
+
+  // Used to validate random selector.
+  // getRandom(characters.lower);
+  // console.log(getRandom(characters.lower));
 
   var useChars = [];
-
+  
   console.log (pwOptions);
-
+  
   if (pwOptions.lower) {
     useChars.push(...characters.lower);
+
+    // We can use this to guarantee at least 1 character from each selected string.
+    // var guaranChars = []; -- has to be popped out to the next level up.
+    // guaranChars.push(useChars[Math.floor(Math.random()*useChars.length)])
   }
   if (pwOptions.caps) {
     useChars.push(...characters.upper);
@@ -58,14 +74,17 @@ function generatePassword() {
   }
 
   console.log (useChars);
-  
-  var pwGen = 0;
+
+  var pwGen = [];
   for (var i = 0; i < pwOptions.length; i++) {
-    var pwGen = useChars[Math.floor(Math.random()*useChars.length)];
+    var useChar=getRandom(useChars);
+    pwGen.push(useChar);
   }
 
+  // Before adding the pwGen.push line, only got 1 character because each character was being overwritten.
+
   console.log(pwGen);
-  return pwGen;
+  return pwGen.join("");
 }
 
 // Write password to the #password input
@@ -88,4 +107,4 @@ generateBtn.addEventListener("click", writePassword);
 // -- Can have one function that asks all of these questions and validates inputs.
 // -- Prompts always return strings, so you need to turn that into an integer.
 // -- Once you get the options, those customize an object.
-// Can pull a random index from whatever the output is.
+// -- Can pull a random index from whatever the output is.
